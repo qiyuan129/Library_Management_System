@@ -32,13 +32,19 @@ public class SQLtest{
 
         try {
             stmt = conn.createStatement();
-            stmt.execute("SELECT administrator_account FROM administrator");
+            stmt.execute("SELECT administrator_account FROM administrator WHERE administrator_account ='221701208'");
             System.out.printf("查询成功，查询结果为");
             rs=stmt.getResultSet();
-            while(rs.next()){
-                String str=rs.getString(1);
-                System.out.println(str);
+
+            if(rs.next()==false) {
+                System.out.print("resultset为空");
             }
+            String string = rs.getString(1);
+            System.out.println(string);
+//            while(rs.next()){
+//                String str=rs.getString(1);
+//                System.out.println(str);
+//            }
         }
         catch (SQLException ex){
             // handle any errors
