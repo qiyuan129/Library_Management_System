@@ -282,22 +282,132 @@ class Books extends JTabbedPane implements ActionListener, ItemListener {//藏�
 
 
 public class PersonalData extends JTabbedPane{//个人信息类：显示个人信息 Manager & Students
-	
 	/*
-	 * 这个页面显示管理员/学生自己的个人信息并实现相关的  修改功夫能
+	 * 这个页面显示管理员/学生自己的个人信息并实现相关的  修改功能
 	 */
-	JPanel View;
-	JPanel Update;
-	public PersonalData(String name) {
+	//view
+	JPanel view;
+	JPanel update;
+	JPanel namePanel;
+	JPanel SNumberPanel;//xuehao
+	JPanel sexPanel;
+	JTextField nameField;
+	JTextField SNumberField;
+	JTextField sexField;
+
+	//update
+	JPanel upNamePanel;
+	JPanel upSNumberPanel;//xuehao
+	JPanel upSexPanel;
+	JTextField upNameField;
+	JTextField upSNumberField;
+	JTextField upSexField;
+
+
+	//数据库方面
+	Connection connector;
+	ResultSet result;
+	Statement sqlStament;
+	public PersonalData(String theName) {
 		super(JTabbedPane.LEFT, JTabbedPane.SCROLL_TAB_LAYOUT);
-		this.setName(name);
-		View = new JPanel();
-		Update = new JPanel();
-		View.setName("个人信息");
-		Update.setName("更改");
-		this.add(View);
-		this.add(Update);
+		this.setName(theName);
+		view = new JPanel();
+		update = new JPanel();
+		view.setName("个人信息");
+		update.setName("更改");
+		this.add(view);
+		this.add(update);
+
+		//数据库
+		//
+		// 方面
+		connector = Transmit.databaseConnector;
+
+		String sql = "SELECT* FROME administrator "+"WHERE administrator_account = '" + Transmit.UserNumber + "'";
+		try {
+			sqlStament = connector.createStatement();
+			sqlStament.execute(sql);
+			result = sqlStament.getResultSet();
+///...........................  5.27  获取结果集，准备将结果的数据赋值给文本框..............
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"出错了","SQL语句执行出错! ",JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+		//.....................View.........
+		//name
+		namePanel = new JPanel();
+		namePanel.setLayout(new FlowLayout());
+		nameField = new JTextField();
+		namePanel.add(new JLabel("姓名"));
+		namePanel.add(nameField);
+
+
+		// SNumber
+		SNumberPanel = new JPanel();
+		SNumberPanel.setLayout(new FlowLayout());
+		SNumberField = new JTextField();
+		SNumberPanel.add(new JLabel("学号"));
+		SNumberPanel.add(SNumberField);
+
+
+
+		//sex
+		sexPanel = new JPanel();
+		sexPanel.setLayout(new FlowLayout());
+		sexField = new JTextField();
+		sexPanel.add(new JLabel("性别"));
+		sexPanel.add(sexField);
+
+
+
+		view.setLayout(new GridLayout(3, 1));
+		view.add(namePanel);
+		view.add(SNumberPanel);
+		view.add(sexPanel);
+
+
+
+
+
+		//...................updatePanel
+		//upName
+		upNamePanel = new JPanel();
+		upNameField = new JTextField("请填入姓名");
+		upNamePanel.setLayout(new FlowLayout());
+		upNamePanel.add(new JLabel("姓名"));
+		upNamePanel.add(upNameField);
+
+		//upSNumber
+		upSNumberPanel = new JPanel();//
+		upSNumberPanel.setLayout(new FlowLayout());
+		upSNumberPanel.add(new JLabel("学号"));
+		upSNumberField = new JTextField("请填入学号");
+		upSNumberPanel.add(upSNumberField);
+
+		//upsex
+		upSexPanel = new JPanel();
+		upSexPanel.setLayout(new FlowLayout());
+		upSexField = new JTextField("请填入性别");
+		upSexPanel.add(new JLabel("性别"));
+		upSexPanel.add(upSexField);
+
+
+		update.setLayout(new GridLayout(3,1));
+		update.add(upNamePanel);
+		update.add(upSNumberPanel);
+		update.add(upSexPanel);
+
+
 	}
+	
+	
+	
 }
 
 
