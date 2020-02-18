@@ -71,9 +71,15 @@ public class EnterFrame extends JFrame implements ActionListener{
 	
 	
 	
-	
+	void hh(){
+		System.out.println("cjnsj");
+	}
 	
 }
+
+
+
+
 
 
 
